@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="repreclamation.css">
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title"></h5>
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+
+        {# retrieve the idr parameter from the URL and pass it to the form #}
+        {% set idr = app.request.query.get('idr') %}
+        <input type="hidden" name="idr" value="{{ idr }}">
+
+		<div class="row mb-3">
+			<label for="inputText" class="col-sm-2 col-form-label">Nom</label>
+			<div class="col-sm-3">
+				{{ form_widget(form.NomAg,{attr:{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_errors(form.NomAg,{attr:{'class':'text-danger'}})  }}
+			</div>
+		</div>
+
+
+		<div class="row mb-3">
+			<label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-3">
+				{{ form_widget(form.daterep,{attr:{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_errors(form.daterep,{attr:{'class':'text-danger'}})  }}
+			</div>
+		</div>
+
+          <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">Réponse</label>
+                  <div class="col-sm-5">
+                  				{{ form_widget(form.reponse,{attr:{'class':'form-control'}}) }}
+
+                    {# <textarea class="form-control" style="height: 100px"></textarea> #}
+                  </div>
+                </div>
+
+    
+	</div>
+</div>
+
+<button class="btn btn-success" type="submit" name="save" value="save">{{ button_label|default('Confirmer') }}</button>
+
+<a class="btn btn-secondary" href="{{ path('app_repreclamation_index') }}">Retour</a>
+
+{{ form_end(form) }}

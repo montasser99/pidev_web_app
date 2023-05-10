@@ -1,0 +1,123 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}
+	Moyenstransport index
+{% endblock %}
+
+{% block contenu %}
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading  " style="background-color: #363b5b;
+					                             padding: 13px 400px;
+					                         margin-bottom: 25px;
+					                         color: aliceblue; display: flex; justify-content: center; align-items: center;">
+				<h2>
+					<strong>moyenne de transport</strong>
+				</h2>
+			</div>
+
+
+  <div class="col-sm-3">
+    <form class="d-flex" method="GET" action="{{ path('app_recherche_moy', {'filterM': ''}) }}">
+  <input class="form-control" name="filterM" type="text" id="navbar-search-input" placeholder="chercher.."  >
+      <button class="btn btn-dark" type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form> 
+  </div>
+        
+
+			<div class="panel-body">
+   <table  class="table table-striped datatable ">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Matricule</th>
+							<th>Capacite</th>
+							<th>Numero de transport</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for moyenstransport in moyenstransports %}
+							<tr>
+								<td>{{ moyenstransport.type }}</td>
+								<td>{{ moyenstransport.matricule }}</td>
+								<td>{{ moyenstransport.capacite }}</td>
+								<td>{{ moyenstransport.nummoy }}</td>
+								<td>
+									<a href="{{ path('app_moyenstransport_show', {'idmoy': moyenstransport.idmoy}) }}"class="btn btn-secondary"><i class="bx bx-show-alt"></i></a>
+									<a href="{{ path('app_moyenstransport_edit', {'idmoy': moyenstransport.idmoy}) }}"class="btn btn-success"><i class="bx bx-edit"></i></a>
+
+									<form method="post" action="{{ path('app_moyenstransport_delete', {'idmoy': moyenstransport.idmoy}) }}" style="display: inline-block;">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ moyenstransport.idmoy) }}">
+									               <button class="btn btn-danger"  type="button" onclick="deleteFunction(event, this.form)"><i class="bi bi-trash"></i></button>
+									</form>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="6">table vide</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+				<a href="{{ path('app_moyenstransport_new') }}" class="btn btn-primary">Créer un nouveau</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+     {% for message in app.flashes('notice') %}
+        <script>
+           Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: "{{ message }}",
+              showConfirmButton: false,
+              timer: 2500
+           })    
+        </script>
+     {% endfor %}
+
+
+<script>
+  function deleteFunction(event, form) {
+    event.preventDefault(); // prevent form submit
+    var btn = event.target; // storing the button element
+    btn.disabled = true; // disable the button to prevent double click
+    Swal.fire({
+      title: 'Es-tu sûr?',
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText:'Annuler',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le !',
+      closeOnCancel: false,
+      closeOnConfirm: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        form.submit(); // submitting the form when user press yes
+        Swal.fire({
+           title: 'Supprimé !',
+          text: 'Votre fichier a été supprimé.',
+          icon: 'success',
+          closeOnCancel: true,
+          closeOnConfirm: true
+        })
+      } else {
+        btn.disabled = false; // re-enable the button
+        Swal.fire({
+          title: 'Annulé',
+          text: 'Votre fichier est en sécurité :)',
+          icon: 'error',
+          closeOnCancel: true,
+          closeOnConfirm: true
+        })
+      }
+    });
+  }
+</script>
+
+{% endblock %}

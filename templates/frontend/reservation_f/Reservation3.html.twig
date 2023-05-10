@@ -1,0 +1,433 @@
+{% extends 'frontend/index.html.twig' %}
+
+{% set items_per_page = app.request.get('perpage', 5) %}
+{% set current_page = app.request.get('page', 1) %}
+{% set total_items = Reserv|length %}
+{% set start_index = total_items <= items_per_page ? 0 : (current_page - 1) * items_per_page %}
+{% set end_index = start_index + items_per_page %}
+{% set items = ['item1', 'item2', 'item3', 'item4', 'item5', 'item6', 'item7', 'item8', 'item9', 'item10', 'item11', 'item12', 'item13', 'item14', 'item15', 'item16', 'item17', 'item18', 'item19', 'item20', 'item21', 'item22', 'item23', 'item24', 'item25', 'item26', 'item27', 'item28', 'item29', 'item30', 'item31', 'item32', 'item33', 'item34', 'item35', 'item36', 'item37', 'item38', 'item39', 'item40'] %}
+{% set total_pages = (total_items + items_per_page - 1) // items_per_page %}
+{% set max_pages = 5 %}
+
+{% if message is not defined %}
+{% set max_pages = 2 %}
+{% endif %}
+
+
+{% block title %}Reservation
+{% endblock %}
+
+{% block body %}
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<body>	
+	<div id="wrapper">
+
+<div class="pagination" style="    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 45px;
+    margin-top: -30px;">
+    <div class="pagination-info">Affichage {{ start_index + 1 }} - {{ min(start_index + items_per_page, total_items) }} de {{ total_items }} Reservation</div>
+
+    <ul class="pagination-list">
+    {% if current_page > 1 %}
+        <li><a href="?page={{ current_page - 1 }}&perpage={{ items_per_page }}">Previous</a></li>
+    {% endif %}
+
+    {% set start_page = current_page - max_pages // 2 %}
+    {% if start_page < 1 %}
+        {% set start_page = 1 %}
+		{% endif %}
+    {% if start_page + max_pages > total_pages %}
+        {% set start_page = total_pages - max_pages + 1 %}
+    {% endif %}
+
+    {% set end_page = start_page + max_pages - 1 %}
+    {% if end_page > total_pages %}
+        {% set end_page = total_pages %}
+    {% endif %}
+
+    {% for page in start_page..end_page %}
+        <li{% if page == current_page %} class="active"{% endif %}><a href="?page={{ page }}&perpage={{ items_per_page }}">{{ page }}</a></li>
+    {% endfor %}
+
+    {% if current_page < total_pages %}
+        <li><a href="?page={{ current_page + 1 }}&perpage={{ items_per_page }}">Next</a></li>
+    {% endif %}
+</ul>
+
+</div>
+
+<script>
+    function changePage(perpage) {
+        var current_page = "{{ current_page }}";
+        window.location.href = "?page=" + current_page + "&perpage=" + perpage;
+    }
+</script>
+
+
+
+			{% if message is defined %}
+				<a href="{{ path('app_reservation_success') }}" class="custom-btn btn-8" style="left: 654px; top: -10px; text-align:center">
+					<span>
+						<strong>Reservation jour</strong>
+					</span>
+				</a>
+				<h1>L'historique des réservations</h1>
+			{% else %}
+				<a href="{{ path('app_reservation_historique') }}" class="custom-btn btn-8" style="left: 654px; top: -28px; text-align:center">
+					<span>
+						<strong>historique</strong>
+					</span>
+				</a>
+				<h1>Les réservations de ce jour</h1>
+			{% endif %}
+
+			<table id="keywords" cellspacing="0" cellpadding="0">
+
+				<thead>
+					<tr>
+						<th>
+							<span>Numéro de ticket</span>
+						</th>
+						<th>
+							<span>heure de départ</span>
+						</th>
+						<th>
+							<span>heure d'arriveé</span>
+						</th>
+						<th>
+							<span>type de transport</span>
+						</th>
+						<th>
+							<span>prix</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for Reservation in Reserv|slice(start_index, end_index) %}
+						<tr>
+
+
+							<td>{{Reservation.idnum}}</td>
+							<td>{{Reservation.heuredep | date('H:m:s')}}</td>
+							<td>{{Reservation.heurearr | date('H:m:s')}}</td>
+							<td>{{Reservation.type ~' '~ Reservation.numerot}}</td>
+							<td>{{Reservation.prix}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		
+	</body>
+</div>
+
+	{% for message in app.flashes('notice') %}
+		<script>
+			const Toast = Swal.mixin({
+toast: true,
+position: 'top-end',
+showConfirmButton: false,
+timer: 3000,
+timerProgressBar: true,
+didOpen: (toast) => {
+toast.addEventListener('mouseenter', Swal.stopTimer)
+toast.addEventListener('mouseleave', Swal.resumeTimer)
+}
+})
+Toast.fire({icon: 'success', title: "votre réservation a ete effectue avec succès"})
+		</script>
+	{% endfor %}
+
+
+	<style>
+
+
+
+		@import url('https://fonts.googleapis.com/css?family=Amarante');
+
+
+		html {
+			overflow-y: scroll;
+		}
+
+
+		::selection {
+			background: #5f74a0;
+			color: #fff;
+		}
+		::-moz-selection {
+			background: #5f74a0;
+			color: #fff;
+		}
+		::-webkit-selection {
+			background: #5f74a0;
+			color: #fff;
+		}
+
+		br {
+			display: block;
+			line-height: 1.6em;
+		}
+
+		article,
+		aside,
+		details,
+		figcaption,
+		figure,
+		footer,
+		header,
+		hgroup,
+		menu,
+		nav,
+		section {
+			display: block;
+		}
+		ol,
+		ul {
+			list-style: none;
+		}
+
+		input,
+		textarea {
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-size-adjust: 100%;
+			-ms-text-size-adjust: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			outline: none;
+		}
+
+		blockquote,
+		q {
+			quotes: none;
+		}
+		blockquote:before,
+		blockquote:after,
+		q:before,
+		q:after {
+			content: '';
+			content: none;
+		}
+		strong,
+		b {
+			font-weight: bold;
+		}
+
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+		img {
+			border: 0;
+			max-width: 100%;
+		}
+
+		h1 {
+			font-family: 'Amarante', Tahoma, sans-serif;
+			font-weight: bold;
+			font-size: 3.8em;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+
+		/** page structure **/
+				#wrapper {
+		display: block;
+		width: 900px;
+		min-height:200px;
+		background: #fff;
+		margin: 26px auto 66px;
+		padding: 45px 30px;
+		-webkit-box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.35);
+}
+
+		#keywords {
+			margin: 0 auto 15px;
+		}
+
+
+		#keywords thead {
+			cursor: pointer;
+			background: #dff6eb;
+		}
+		#keywords thead tr th {
+			font-weight: bold;
+			padding: 20px 17px 20px 4px;
+		}
+		#keywords thead tr th span {
+			padding-right: 20px;
+			background-repeat: no-repeat;
+			color: darkgreen;
+
+		}
+
+		#keywords thead tr th.headerSortUp,
+		#keywords thead tr th.headerSortDown {
+			background: #acc8dd;
+		}
+
+		#keywords thead tr th.headerSortUp span {
+			background-image: url('https://i.imgur.com/SP99ZPJ.png');
+		}
+		#keywords thead tr th.headerSortDown span {
+			background-image: url('https://i.imgur.com/RkA9MBo.png');
+		}
+
+
+		#keywords tbody tr {
+			color: #555;
+		}
+		#keywords tbody tr td {
+			text-align: center;
+			padding: 15px 10px;
+		}
+		#keywords tbody tr td.lalign {
+			text-align: left;
+		}
+	</style>
+
+	{# Button css #}
+	<style>
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.pagination-info {
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.pagination-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-list li {
+  margin-right: 10px;
+}
+
+.pagination-list li:last-child {
+  margin-right: 0;
+}
+
+.pagination-list li a {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 16px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+}
+
+.pagination-list li.active a {
+  background-color: #75c1a1;
+  color: #fff;
+  border-color: #75c1a1;;
+}
+
+
+		.custom-btn {
+			width: 130px;
+			height: 40px;
+			color: #fff;
+			border-radius: 5px;
+			padding: 10px 25px;
+			font-family: 'Lato', sans-serif;
+			font-weight: 500;
+			background: transparent;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			position: relative;
+			display: inline-block;
+			box-shadow: inset 2px 2px 2px 0 rgba(255, 255, 255, .5), 7px 7px 20px 0 rgba(0, 0, 0, .1), 4px 4px 5px 0 rgba(0, 0, 0, .1);
+			outline: none;
+		}
+
+
+		/* 8 */
+		.btn-8 {
+			background-color: #f0ecfc;
+			background-image: linear-gradient(315deg, #c9ffdb 0%, #76bb9a 74%);
+			line-height: 42px;
+			padding: 0;
+			border: none;
+		}
+		.btn-8 span {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		.btn-8:before,
+		.btn-8:after {
+			position: absolute;
+			content: "";
+			right: 0;
+			bottom: 0;
+			background: #90df90;
+			/*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+			transition: all 0.3s ease;
+		}
+		.btn-8:before {
+			height: 0;
+			width: 2px;
+		}
+		.btn-8:after {
+			width: 0;
+			height: 2px;
+		}
+		.btn-8:hover:before {
+			height: 100%;
+		}
+		.btn-8:hover:after {
+			width: 100%;
+		}
+		.btn-8:hover {
+			background: transparent;
+		}
+		.btn-8 span:hover {
+			color: green;
+		}
+		.btn-8 span:before,
+		.btn-8 span:after {
+			position: absolute;
+			content: "";
+			left: 0;
+			top: 0;
+			background: #63af63;
+			/*box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
+              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+    inset -4px -4px 6px 0 rgba(255,255,255,.5),
+    inset 4px 4px 6px 0 rgba(116, 125, 136, .3);*/
+			transition: all 0.3s ease;
+		}
+		.btn-8 span:before {
+			width: 2px;
+			height: 0;
+		}
+		.btn-8 span:after {
+			height: 2px;
+			width: 0;
+		}
+		.btn-8 span:hover:before {
+			height: 100%;
+		}
+		.btn-8 span:hover:after {
+			width: 100%;
+		}
+	</style>
+
+{% endblock %}

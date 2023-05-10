@@ -1,0 +1,59 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Station index {% endblock %}
+
+{% block contenu %}
+{% for type, messages in app.flashes() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+    <h1>Station index</h1>
+
+     <form action="{{ path('search_app') }}" method="GET">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for stations" name="query" >
+        <span class="input-group-btn">
+           
+           <button class="btn btn-primary active">Search</button>
+            
+        </span>
+    </div>
+</form>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Idstation</th>
+                <th>NomS</th>
+                <th>Adresse</th>
+                <th>Nom Circuit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for station in stations %}
+            <tr>
+                <td>{{ station.idstation }}</td>
+                <td>{{ station.nomS }}</td>
+                <td>{{ station.adresse }}</td>
+               <td>{{ station.idcircuit.nomc }}</td>
+                <td>
+                    <a href="{{ path('app_station_show', {'idstation': station.idstation}) }}" class="btn btn-info text-white active">show</a>
+                    <a href="{{ path('app_station_edit', {'idstation': station.idstation}) }}" class="btn btn-success text-white active">edit</a>
+                    <a href="{{ path('app_station_delete', {'idstation': station.idstation}) }}" class="btn btn-danger active" >Delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_station_new') }}" class="btn btn-primary active">Create new</a>
+{% endblock %}

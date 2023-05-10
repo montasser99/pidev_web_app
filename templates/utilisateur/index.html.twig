@@ -1,0 +1,59 @@
+{% extends 'base-back.html.twig' %}
+{% block contenu %}
+
+{% block title %}Utilisateur index{% endblock %}
+
+{% block body %}
+    <h1>Gestion utilisateurs</h1>
+    <table class="table datatable">
+        <thead>
+            <tr>
+                <th>Cin:</th>
+                <th>Email</th>
+                <!--<th>Roles</th>-->
+                
+                <th>Nom:</th>
+                <th>Prenom:</th>
+                <th>Telephone:</th>
+                <th>Role:</th>
+                <th>Imageurl:</th>
+                <th>Abonnement</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for utilisateur in utilisateurs %}
+            <tr> 
+                <td>{{ utilisateur.cinu }}</td>
+                <td>{{ utilisateur.email }}</td>
+                <!--<td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>-->
+                <td>{{ utilisateur.nomu }}</td>
+                <td>{{ utilisateur.prenomu }}</td>
+                <td>{{ utilisateur.telephoneu }}</td>
+                <td>{{ utilisateur.roleu }}</td>
+                <td>{{ utilisateur.imagepu }}</td>
+                <td>{{ utilisateur.abonneu ? 'Yes' : 'No' }}</td>
+                <td>
+                    <!--<a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
+                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>-->
+                    <div style="display: flex; justify-content: center;">
+  
+  <button type="button" class="btn btn-outline-info" onclick="location.href='{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}'">Afficher</button>
+  <button type="button" class="btn btn-outline-dark" onclick="location.href='{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}'">Modifier</button>
+</div>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-outline-info" onclick="location.href='{{ path('app_utilisateur_new') }}'">Ajouter</button>
+
+{% endblock %}
+{% endblock %}
+

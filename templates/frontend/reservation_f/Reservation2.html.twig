@@ -1,0 +1,388 @@
+{% extends 'frontend/index.html.twig' %}
+
+{% block title %}Reservation
+{% endblock %}
+
+{% block body %}
+
+	<link
+	rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+	{# code here of paiment #}
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-5" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Payment</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="row d-flex">
+							<div class="col">
+								<div class="row">
+									<img src="{{ asset('uploads/Oreedoo.jpg') }}" alt="Oreedoo logo" style="width: 331px; height: 150px;">
+									<button class="btn btn-secondary" onclick="showPaymentWithOreedoo(document.getElementById('dated').value, document.getElementById('idcir').value, document.getElementById('idmoy').value)" style="width: 270px; margin-left: 30px; margin-bottom: 44px;">Oreedoo</button>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<img src="{{ asset('uploads/Edinar.jpg') }}" alt="Edinar logo" style="width: 331px; height: 150px;">
+									<button class="btn btn-secondary" onclick="showPaymentWithCarteEdinar(document.getElementById('dated').value, document.getElementById('idcir').value, document.getElementById('idmoy').value)" style="width: 270px; margin-left: 30px;">E-dinar jeune</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div
+								id="payment-container"><!-- Payment form will be displayed here -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	{# end code paiment  #}
+
+
+	<div class="card-container">
+		{% for Result in Results %}
+			<div class="card">
+				<div class="card-img">
+					{% if Result.idmoy.type =='Bus' %}
+						<img src="{{ asset('uploads/images/bus.png') }}" alt="Image de bus" style=" width: 336px; height: 200px;">
+					{% elseif Result.idmoy.type =='Metro' %}
+						<img src="{{ asset('uploads/images/metro.jpg') }}" alt="Image de metro" style=" width: 336px; height: 200px;">
+					{% else %}
+						<img src="{{ asset('uploads/images/train.jpg') }}" alt="Image de Train" style=" width: 336px; height: 200px;">
+					{% endif %}
+				</div>
+				<div class="cards-title">
+					<div>
+						<h6 style="margin-top:15px;">Depart - Arrivée</h6>
+					</div>
+					<h5>
+						<i class="bi bi-clock-fill"></i>
+						{{Result.dated ~' - '~ Result.datea}}</h5>
+					<h6>
+						Nombre de place disponible
+					</h6>
+					{% if Result.nbplace > 0 %}
+					<h5>{{Result.nbplace}}</h5>
+					{% else %} 
+					<h5 style="color:red">{{Result.nbplace}}</h5>
+					{% endif %}
+					<h6 style="">
+						Prix de reservation
+					</h6>
+					<h5 style="text-align: center; color: green;">{{Result.prix}}</h5>
+				</div>
+
+				{% if Result.nbplace > 0 %}
+				<form id="reservation-form">
+					<input type="hidden" name="dated" id="dated" value={{Result.dated}}>
+					<input type="hidden" name="idcir" id="idcir" value={{Result.idcir.idcircuit}}>
+					<input
+					type="hidden" name="idmoy" id="idmoy" value={{Result.idmoy.idmoy}}>
+					<!-- Other form fields go here -->
+					<button type="button" onclick="reservePlace('{{ Result.dated }}', '{{ Result.idcir.idcircuit }}', '{{ Result.idmoy.idmoy }}')" data-toggle="modal" data-target="#exampleModalCenter" class="custom-btn btn-4" style="color:black; text-align:center"><strong>Reserver</strong></button>
+				</form>
+				{% else %}
+				<p style="color:red ; text-align:center"><strong>{{Result.idmoy.type}} est plein ! </strong><p>
+				{% endif %}
+				{# <form id="reservation-form" method="POST" action="{{ path('app_reserver_place', {'dated': Result.dated, 'idcir': Result.idcir.idcircuit, 'idmoy': Result.idmoy.idmoy}) }}">
+				  <input type="hidden" name="dated" value="{{ Result.dated }}">
+				  <input type="hidden" name="idcir" value="{{ Result.idcir.idcircuit }}">
+				  <input type="hidden" name="idmoy" value="{{ Result.idmoy.idmoy }}">
+				  <!-- Other form fields go here -->
+				</form> #}
+
+
+			</div>
+		{% else %}
+			<div class="card" style="width: 1766px; height: 286px; margin-left: 0px;margin-top: 50px; background-color: #eaffe1;">
+				<div class="card-info">
+					<h2>Reservation non dispobible</h2>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+
+	<style>
+		.modal-dialog {
+			max-width: 800px;
+			max-height: 800px !important;
+		}
+
+		button:focus {
+			outline: 0;
+		}
+
+		.button-cta {
+			width: 100%;
+			height: 65px;
+			position: absolute;
+			float: right;
+			right: -4px;
+			bottom: -68px;
+			padding: 10px 20px;
+			background-color: #5c9859;
+			border: 1px solid #88da7d;
+			font-family: 'Quicksand', sans-serif;
+			font-weight: 700;
+			font-size: 24px;
+			color: #f4f5f9;
+			z-index: -1;
+
+			-webkit-transition: all 0.3s;
+			-moz-transition: all 0.3s;
+			-ms-transition: all 0.3s;
+			-o-transition: all 0.3s;
+			transition: all 0.3s;
+		}
+
+		.button-cta:hover {
+			background: #447541;
+			border: #447541;
+		}
+
+		.button-cta span {
+			display: inline-block;
+			position: relative;
+
+			-webkit-transition: all 0.3s;
+			-moz-transition: all 0.3s;
+			-ms-transition: all 0.3s;
+			-o-transition: all 0.3s;
+			transition: all 0.3s;
+		}
+
+		.button-cta span:after {
+			content: '→';
+			color: #f4f5f9;
+			position: absolute;
+			opacity: 0;
+			top: 0;
+			right: -40px;
+		}
+
+		.button-cta:hover span {
+			padding-right: 45px;
+		}
+
+		.button-cta:hover span:after {
+			opacity: 1;
+			right: 0;
+		}
+
+		h5 {
+			text-align: center;
+			color: green;
+		}
+		h6 {
+			text-align: center;
+
+		}
+		.card-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center; /* Align cards in the center */
+			margin-top: 50px;
+		}
+		.card {
+			flex: 0 0 335px; /* Set the width of the card */
+			height: 450px;
+			margin: 0 20px 50px;
+			background-color: #fff;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 8px;
+			overflow: hidden;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		.card:hover {
+			transform: scale(1.05);
+		}
+
+		.card-img img {
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+		}
+
+		.card-info {
+			padding: 20px;
+			text-align: center;
+		}
+
+		.card-info h2 {
+			margin-top: 0;
+			font-size: 24px;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.card-info p {
+			margin-bottom: 0;
+			font-size: 18px;
+			line-height: 1.5;
+		}
+
+		{
+			# Btn css #
+		}
+		.btn-4 {
+			background-color: #4dccc6;
+			background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+			line-height: 42px;
+			padding: 0;
+			border: none;
+			margin-top: 10px;
+			width: 187px;
+		    margin-left: 72px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+		}
+		.btn-4:hover {
+			background-color: #89d8d3;
+			background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+		}
+		.btn-4 span {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+		.btn-4:before,
+		.btn-4:after {
+			position: absolute;
+			content: "";
+			right: 0;
+			top: 0;
+			box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.9), -4px -4px 6px 0 rgba(116, 125, 136, 0.2), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.9), inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
+			transition: all 0.3s ease;
+		}
+		.btn-4:before {
+			height: 0;
+			width: 0.1px;
+		}
+		.btn-4:after {
+			width: 0;
+			height: 0.1px;
+		}
+		.btn-4:hover:before {
+			height: 100%;
+		}
+		.btn-4:hover:after {
+			width: 100%;
+		}
+		.btn-4 span:before,
+		.btn-4 span:after {
+			position: absolute;
+			content: "";
+			left: 0;
+			bottom: 0;
+			box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.9), -4px -4px 6px 0 rgba(116, 125, 136, 0.2), inset -4px -4px 6px 0 rgba(255, 255, 255, 0.9), inset 4px 4px 6px 0 rgba(116, 125, 136, 0.3);
+			transition: all 0.3s ease;
+		}
+		.btn-4 span:before {
+			width: 0.1px;
+			height: 0;
+		}
+		.btn-4 span:after {
+			width: 0;
+			height: 0.1px;
+		}
+		.btn-4 span:hover:before {
+			height: 100%;
+		}
+		.btn-4 span:hover:after {
+			width: 100%;
+		}
+	</style>
+
+
+	<script>
+		function showPaymentWithOreedoo(dated, idcir, idmoy) {
+
+var paymentContainer = document.getElementById('payment-container');
+paymentContainer.innerHTML = `
+    
+        <br>
+        <span>Phone number:</span>
+        <input class="form-control" placeholder="98765432">
+        <span>Amount:</span>
+        <input class="form-control" value=700>
+        <div class="modal-footer">
+ 		<button id="payerButton" class="button-cta" type="submit">
+        <span>Payer</span>
+      </button>
+        </div>
+        <div class="loading" id="loading">
+          <div class="loading-spinner"></div>
+        </div>
+
+    `;
+
+
+// Add event listener to the "Payer" button
+var payerButton = document.getElementById('payerButton');
+payerButton.addEventListener('click', function () { // Send request to the controller path
+window.location.href = "/reservation/ReserverPlace/" + dated + "/" + idcir + "/" + idmoy;
+});
+}
+
+function showPaymentWithCarteEdinar(dated, idcir, idmoy) {
+var paymentContainer = document.getElementById('payment-container');
+paymentContainer.innerHTML = `
+     
+        <br>
+        <span>Cardholder's name:</span>
+        <input class="form-control" placeholder="Linda Williams">
+        <span>Card Number:</span>
+        <input class="form-control" placeholder="0125 6780 4567 9909">
+        <div class="row">
+          <div class="col-4">
+            <span>Expiry date:</span>
+            <input class="form-control" placeholder="YY/MM">
+          </div>
+          <div class="col-4">
+            <span>CVV:</span>
+            <input class="form-control" id="cvv">
+          </div>
+        </div>
+		       <div class="modal-footer">
+ 		<button id="payerB" class="button-cta" type="submit">
+        <span>Payer</span>
+      </button>
+		</div>
+        <div class="loading" id="loading">
+          <div class="loading-spinner"></div>
+        </div>
+		`;
+// Add event listener to the "Payer" button
+var payerB = document.getElementById('payerB');
+payerB.addEventListener('click', function () { // Send request to the controller path
+window.location.href = "/reservation/ReserverPlace/" + dated + "/" + idcir + "/" + idmoy;
+});
+}
+
+
+function reservePlace(dated, idcir, idmoy) {
+showPaymentWithCarteEdinar(dated, idcir, idmoy);
+showPaymentWithOreedoo(dated, idcir, idmoy);
+}
+	</script>
+{% endblock %}

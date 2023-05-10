@@ -1,0 +1,196 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Planning index {% endblock %}
+
+
+{% block contenu %}
+
+
+<p><span class="fancy">Ajouter une signature </span></p>
+
+{% if etatJ is defined %}
+<form action="{{ path('app_download_pdfAll', {'etatj': etatJ|json_encode|url_encode}) }}" method="POST">
+  <canvas id="signature-canvas"></canvas>
+  <input type="hidden" id="signature-input" name="signed">
+  <input type="hidden" id="etatJ" name="etatj" value="{{ etatJ|json_encode|raw }}">
+  <button class="custom-btn btn-1" style="margin-left: 424px; margin-top: 70px; margin-bottom: 155px; color:white; text-align:center"><strong>Ajouter</strong></button>
+</form>
+<button class="custom-btn btn-1" style="       top: -196px;
+    right: -728px;" onclick="clearSignature()"><strong>Re-signer<strong></button>
+<script>
+  var downloadBtn = document.querySelector('.btn-1');
+
+  downloadBtn.addEventListener('click', function(event) {
+
+    // Get the value of etatJ from the Twig template
+var etatJ = {{ etatJ|json_encode|raw }};
+    // Create the download URL with the encoded data as a query parameter
+var downloadUrl = "{{ path('app_download_pdfAll', {'etatj': etatJ|json_encode|url_encode}) }}";
+
+    // Send a GET request to the download URL
+    window.location.href = downloadUrl;
+  });
+</script>
+
+{% else %}
+<form action="{{ path('app_download_pdf', {'id':id,'type':type,'numeroT':numeroT,'total':total ,'dateRes':dateRes}) }}" method="POST">
+        <canvas id="signature-canvas"></canvas>
+        <input type="hidden" id="signature-input" name="signed">
+        <div>
+<button class="custom-btn btn-1" style="margin-left: 424px; margin-top: 70px; margin-bottom: 155px;" onclick="downloadSignature()"><strong>Ajouter</strong></button>
+    </form>
+
+<button class="custom-btn btn-1" style="   margin-left: 97px;" onclick="clearSignature()"><strong>Re-signer<strong></button>
+
+{% endif %}
+
+
+{% if app.flashes('notif') is not empty %}
+        <script>
+        
+           Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: "Vous devez signer",
+              showConfirmButton: false,
+              timer: 2500
+           })    
+        </script>
+     {% endif %}
+
+
+<script>     
+
+
+const canvas = document.getElementById('signature-canvas');
+const context = canvas.getContext('2d');
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+canvas.addEventListener('mousedown', (event) => {
+    isDrawing = true;
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+});
+
+canvas.addEventListener('mousemove', (event) => {
+    if (!isDrawing) return;
+
+    context.beginPath();
+    context.moveTo(lastX, lastY);
+    context.lineTo(event.offsetX, event.offsetY);
+    context.stroke();
+
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+});
+
+canvas.addEventListener('mouseup', () => {
+    isDrawing = false;
+    updateSignatureInput();
+});
+
+function updateSignatureInput() {
+    const dataURL = canvas.toDataURL();
+    document.getElementById('signature-input').value = dataURL;
+}
+
+function downloadSignature() {
+    console.log(signedData);
+    const dataURL = canvas.toDataURL();
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            const blob = new Blob([this.response], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'signature.png';
+            link.click();
+        }
+    };
+xhr.open('POST', '/download/signature', true);    
+xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'arraybuffer';
+    xhr.send('signed=' + encodeURIComponent(dataURL));
+}
+function clearSignature() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    updateSignatureInput();
+    event.preventDefault(); // added to prevent form submission
+    location.reload(); // reload the page
+
+}
+</script>
+
+<style>
+
+#signature-canvas {
+    border: 4px solid black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 40px black;
+    margin-top: 80px;
+}
+
+
+p {
+     font-size: 4.3vw;
+    font-family: math;
+    text-align: center;
+    line-height: 1.5;
+    color: #0A4D68;
+    
+}
+
+.fancy {
+  position: relative;
+  white-space: nowrap;
+  &:after {
+    --deco-height: 0.3125em;
+    content: "";
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: calc(var(--deco-height) * -0.900);
+    height: var(--deco-height);
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='M-17 30.5C-1 22 72-4 54 13 37.9 28.2-2.5 57.5 16 55.5s72-29 104-40' stroke='%2300FDCF' stroke-width='10'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M0 0h100v64H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
+    background-size: auto 100%;
+    background-repeat: round;
+    background-position: 0em;
+  }
+}
+
+
+
+/* 1 */
+.btn-1 {
+  background: #21edc3;
+  border: none;
+}
+.btn-1:hover {
+    background: #21edc3;
+}
+.custom-btn {
+    width: 199px;
+    height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: #1dddb5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+</style>
+{% endblock %}

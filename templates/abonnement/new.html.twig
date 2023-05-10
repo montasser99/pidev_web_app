@@ -1,0 +1,54 @@
+{% extends 'frontend/front.html.twig' %}
+{# {% extends 'backend/back.html.twig' %} #}
+{% block title %}New Abonnement{% endblock %}
+
+{% block contenu %}
+    {# <h1>S'abonner</h1> #}
+
+    {{ include('abonnement/_form2.html.twig') }}
+{# 
+    <a href="{{ path('app_abonnement_index') }}">back to list</a> #}
+
+<script>
+const planSelect = document.querySelector('#abonnement_idtypeA');
+const dateExpInput = document.querySelector('#abonnement_dateExpA');
+
+// Set the initial value for dateExpA
+updateDateExp(planSelect.value);
+
+// Listen for changes in the plan selectbox
+planSelect.addEventListener('change', function() {
+  updateDateExp(planSelect.value);
+});
+
+// Update the dateExpA field based on the selected plan
+function updateDateExp(planId) {  
+  // Get the current date
+  const today = new Date();
+  // Set the default value for dateExpA to the current date
+  
+  dateExpInput.value = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+
+  switch (planId) {
+    case '1':
+      // Add 1 year to the current date
+      today.setFullYear(today.getFullYear() + 1);
+      break;
+    case '2':
+      // Add 6 months to the current date
+      today.setMonth(today.getMonth() + 6);
+      break;
+    case '3':
+      // Add 3 months to the current date
+      today.setMonth(today.getMonth() + 3);
+      break;
+    default:
+      // Keep the default value for dateExpA
+      break;
+  }
+  // Update the value of dateExpA
+  dateExpInput.value = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+}
+
+</script>
+{% endblock %}

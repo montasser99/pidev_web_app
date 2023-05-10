@@ -1,0 +1,31 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Reponse Reclamation{% endblock %}
+
+{% block contenu %}
+    <h1>Reponse Reclamation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ repreclamation.NomAg }}</td>
+            </tr>
+
+            <tr>
+                <th>Date</th>
+                <td>{{ repreclamation.daterep ? repreclamation.daterep|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reponse</th>
+                <td>{{ repreclamation.reponse }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_repreclamation_index') }}">back to list</a>
+
+    <a href="{{ path('app_repreclamation_edit', {'idrep': repreclamation.idrep}) }}">edit</a>
+
+    {{ include('repreclamation/_delete_form.html.twig') }}
+{% endblock %}

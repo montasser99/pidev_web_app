@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+{% for message in app.flashes('success') %}
+  <div class="alert alert-success alert-dismissible fade show text-center" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 9999; padding: 10px; border-radius: 5px; background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  
+  <script>
+    setTimeout(function() {
+      document.querySelector('.alert-success').remove();
+    }, 3000);
+  </script>
+{% endfor %}
+
+
+
+
+        {% block body %}{% endblock %}
+        
+    </body>
+</html>

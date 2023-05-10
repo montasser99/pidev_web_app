@@ -1,0 +1,56 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Alerte index{% endblock %}
+
+{% block contenu %}
+    <h1>Alerte index</h1>
+
+    <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table table-striped">
+                <thead>
+            <tr>
+                <th>IdAlerteEve</th>
+                <th>TypeAlerteEve</th>
+                <th>TitreEve</th>
+                <th>DescEve</th>
+                <th>DateDebEve</th>
+                <th>DateFinEve</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for alerte in alertes %}
+            <tr>
+                <td>{{ alerte.idAlerteEve }}</td>
+                <td>{{ alerte.typeAlerteEve }}</td>
+                <td>{{ alerte.titreEve }}</td>
+                <td>{{ alerte.descEve }}</td>
+                <td>{{ alerte.dateDebEve ? alerte.dateDebEve|date('Y-m-d') : '' }}</td>
+                <td>{{ alerte.dateFinEve ? alerte.dateFinEve|date('Y-m-d') : '' }}</td>
+                <td>
+                   <a href="{{ path('app_alerte_show', {'idAlerteEve': alerte.idAlerteEve}) }}"class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_alerte_edit', {'idAlerteEve': alerte.idAlerteEve}) }}" class="btn btn-success">Modifier</a>
+                    <form method="post" action="{{ path('app_alerte_delete', {'idAlerteEve': alerte.idAlerteEve}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ alerte.idAlerteEve) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>  
+
+
+
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ <a href="{{ path('app_alerte_new') }}"class="btn btn-primary">Ajouter</a>
+    
+{% endblock %}

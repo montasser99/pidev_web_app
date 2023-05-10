@@ -1,0 +1,36 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Station {% endblock %}
+
+{% block contenu %}
+    <h1>Station</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idstation</th>
+                <td>{{ station.idstation }}</td>
+            </tr>
+            <tr>
+                <th>NomS</th>
+                <td>{{ station.nomS }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ station.adresse }}</td>
+            </tr>
+             <tr>
+                <th>Circuit</th>
+                <td>{{ station.idcircuit.nomc }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_station_index') }}" class="btn btn-secondary">back to list</a>
+
+    <a href="{{ path('app_station_delete', {'idstation': station.idstation}) }}"  class="btn btn-danger active">Delete</a>
+
+    
+   
+    
+{% endblock %}

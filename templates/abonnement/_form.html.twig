@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+ {% block body %} 
+ <div class="card card-xl-stretch mb-5 mb-xl-8" style="max-width: 680px; border: 1px solid #d6d6d6; padding: 20px ">
+<div class="card-body">
+<h5 class="card-title"> Abonnement</h5>
+{{ form_start(form, {attr: {'novalidate': 'novalidate'}}) }}
+
+<div class="form-group">
+    {{ form_label(form.moyenTransportA, 'Moyen de transport') }}
+    {{ form_widget(form.moyenTransportA) }}
+    {{ form_errors(form.moyenTransportA) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.plan, 'Plan') }}
+    {{ form_widget(form.plan) }}
+    {{ form_errors(form.plan) }}
+</div>
+
+<div class="form-group">
+    {# <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck1">
+        <label class="form-check-label" for="gridCheck1">
+            Etudiant?
+        </label> #}
+{#    
+    {{ form_widget(form.etudiantA, {'attr': {'id': 'etudiant_a'}}) }}
+    {{ form_errors(form.etudiantA) }} #}
+    {{ form_label(form.etudiantA, 'Etudiant?') }}
+   {{ form_widget(form.etudiantA,{attr: {id: 'etudiant_a'}}) }}
+
+    {{ form_errors(form.etudiantA) }}
+</div>
+</div>
+
+{# <div class="form-group">
+    {{ form_label(form.redEvA, 'Code promo') }}
+    {{ form_widget(form.redEvA) }}
+    {{ form_errors(form.redEvA) }}
+</div> #}
+         <div class="col-lg-6 mb-4 pb-2" style="color:black">
+    {{ form_label(form.dateA, 'Date', {'label_attr': {'style': 'color:black'}}) }}
+    {{ form_widget(form.dateA) }}
+    {{ form_errors(form.dateA) }}
+</div>
+<div>
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}
+</div>
+</div>
+
+{# <script>
+const planSelect = document.querySelector('#abonnement_idtypeA');
+const dateExpInput = document.querySelector('#abonnement_dateExpA');
+
+// Set the initial value for dateExpA
+updateDateExp(planSelect.value);
+
+// Listen for changes in the plan selectbox
+planSelect.addEventListener('change', function() {
+  updateDateExp(planSelect.value);
+ // updateIdtype(planSelect.value);
+});
+
+// Update the dateExpA field based on the selected plan
+ function updateDateExp(planId) {
+  switch (planId) {
+    case '1':
+      dateExpInput.value = '{{ date('+1 year')|date('Y-m-d') }}';
+      break;
+    case '2':
+      dateExpInput.value = '{{ date('+6 months')|date('Y-m-d') }}';
+      break;
+    case '3':
+      dateExpInput.value = '{{ date('+3 months')|date('Y-m-d') }}';
+      break;
+    default:
+      dateExpInput.value = '';
+  }
+} 
+
+
+</script>
+ 
+  updateDateExp(idtypeA.value); #}
+
+{% endblock %}

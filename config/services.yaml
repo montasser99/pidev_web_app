@@ -1,0 +1,56 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+    uploads_directory: '%kernel.project_dir%/public/assets/img'
+    app.alerts: '%env(APP_ALERTS)%'
+    image_directory: '%kernel.project_dir%/public/uploads'
+    permis_images:  '%kernel.project_dir%/public/image/permis'
+
+# app.path.Images_directory: /assets/img
+
+services:
+    App\EventListener\MyCustomListener:
+        arguments:
+            - '@App\Repository\PlanningRepository'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    app.twilio:
+        class: Twilio\Rest\Client
+        arguments:
+            - '%env(TWILIO_ACCOUNT_SID)%'
+            - '%env(TWILIO_AUTH_TOKEN)%'
+
+    # Alias the Twilio\Rest\Client class to the app.twilio service
+    Twilio\Rest\Client: '@app.twilio'
+
+# config/services.yaml
+    App\Entity\Service\DompdfService:
+        autowire: true
+        
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    # app/config/services.yaml
+
+    App\Service\MailerService:
+        arguments:
+            $replyTo: 'ghribi.chaima@esprit.com'
+    
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

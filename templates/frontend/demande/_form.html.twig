@@ -1,0 +1,79 @@
+
+<div class="panel-body">
+       
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+<div class="form-body" style="    padding: 25px;
+    margin-top: -26px;
+    margin-bottom: 6px;
+    margin-right: -190px;"> 
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Nom Circuit</label>
+    {{ form_widget(form.nomc,{attr:{'class':' form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.nomc,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br></br>
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Moyen de transport</label>
+    {{ form_widget(form.moyen,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.moyen,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br>
+
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Heure de départ</label>
+    {{ form_widget(form.dated,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.dated,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br>
+
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Heure d'arrivée</label>
+    {{ form_widget(form.datea,{attr:{'class':'form-control' }}) }}
+<span style="color: red">
+    {{ form_errors(form.datea,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br>
+
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Permis</label>
+    {{ form_widget(form.permis,{attr:{'class':'form-control' }}) }}
+<span style="color: red">
+    {{ form_errors(form.permis,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br>
+
+<div style="text-align: center;">
+<div class="form-group col-md-6" style="display: inline-block;">
+<label>Email</label>
+    {{ form_widget(form.EmailC,{attr:{'class':'form-control'  , 'value': app.user.email, 'disabled':true  }}) }}
+
+<span style="color: red">
+    {{ form_errors(form.EmailC,{attr:{'class':'text-danger'}})  }}
+</span>
+</div></div></br>
+
+<div class="text-center">
+<button type="submit" class="btn btn-primary" style=
+"display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #48C9B0;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;" background-color: "#48C9B0;">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+{{ form_end(form) }}
+</div>
+</div>

@@ -1,0 +1,54 @@
+
+<div class="panel-body">
+       
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+<div class="form-body" style="    padding: 25px;
+    margin-top: -26px;
+    margin-bottom: 6px;
+    margin-right: -190px;"> 
+
+<div class="form-group col-md-9" style="display: inline-block;">
+<label>Nom Circuit</label>
+    {{ form_widget(form.nomc,{attr:{'class':' form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.nomc,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+
+<div class="form-group col-md-9" >
+<label>Départ Circuit</label>
+    {{ form_widget(form.departc,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.departc,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+
+<div class="form-group col-md-9" >
+<label>Arrivée Circuit</label>
+    {{ form_widget(form.arriveec,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.arriveec,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+
+<div class="text-center">
+<button type="submit" class="btn btn-primary" style=
+"display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #4DA2FB;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;" background-color: "#4DA2FB;">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+
+
+
+{{ form_end(form) }}
+</div>
+</div>

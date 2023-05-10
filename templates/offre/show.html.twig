@@ -1,0 +1,74 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Offre{% endblock %}
+
+
+				  {% block aleart %}
+                
+                	<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item " href="{{ asset('blog.html') }}">Blog</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('blog-details.html') }}">Blog Details</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('service-details.html') }}">Service Details</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('faq.html') }}">FAQ&#39;s</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('legal.html') }}">Legal</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('terms.html') }}">Terms &amp; Condition</a>
+							</li>
+							<li><a class="dropdown-item " href="{{ asset('privacy-policy.html') }}">Privacy &amp; Policy</a>
+							</li>
+						</ul>
+					</li>
+
+                {% endblock %}
+
+{% block contenu %}
+    <h1>Offre</h1>
+<a href="{{ path('app_offre_index') }}"><i class="ri-arrow-left-circle-fill" style="font-size: 50px;"></i></a>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>DureeOffre</th>
+                <td>{{ offre.dureeOffre }}</td>
+            </tr>
+            <tr>
+                <th>Discount</th>
+                <td>{{  offre.budgetOffre }}%</td>
+            </tr>
+            <tr>
+                <th>StatutOffre</th>
+                <td>{{ offre.statutOffre }}</td>
+            </tr>
+            <tr>
+                <th>TitreEve</th>
+                <td>{{ offre.idu.titreEve }}</td>
+            </tr>
+            <tr>
+                <th>DescEve</th>
+                <td>{{ offre.idu.descEve }}</td>
+            </tr>
+            <tr>
+                <th>DateDebEve</th>
+                <td>{{ offre.dateDebEve ? offre.dateDebEve|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinEve</th>
+                <td>{{ offre.dateFinEve ? offre.dateFinEve|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+   
+    <form method="post" action="{{ path('app_offre_delete', {'idOffreEve': offre.idOffreEve}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.idOffreEve) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+
+    
+
+    
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends 'frontend/index.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+<section class="section bg-image" style="height: 600px;">
+  <div class="container">
+    <h1></h1>
+  </div>
+
+
+</section>  
+
+<button onclick="window.location.href='{{ path('app_reservation_Rindex') }}'" style="margin-left: 209px; margin-top: -585px; margin-bottom: 101px;">
+  <span>Réserver une place</span>
+</button>
+
+<style>		
+ {# background image with animation #}
+.bg-image {
+  background-image: url({{ asset('images/bckg.jpg') }});
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  animation-name: zoominout;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes zoominout {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+{# here css text h1 #}
+h1 {
+  font-size: 5em;
+  color: white;
+  font-family: "Arial", sans-serif;
+
+}
+
+
+button {
+  border-radius: 80px;
+  background-color: #4c945e;;
+  border: none;
+  color: #fff;
+  text-align: center;
+  font-size: 25px;
+  padding: 10px;
+  width: 300px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 36px;
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, .7);
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999; /* ensure button is on top of other elements */
+}
+
+button {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+button:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 14px;
+  right: -20px;
+  transition: 0.5s;
+}
+
+button:hover {
+  padding-right: 24px;
+  padding-left: 8px;
+}
+
+button:hover:after {
+  opacity: 1;
+  right: 10px;
+}
+
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded',function(event){
+  // array with texts to type in typewriter
+  var dataText = ["Utilisez notre application, oubliez les problémes du transport en tunisie !"];
+  
+  // type one text in the typwriter
+  // keeps calling itself until the text is finished
+  function typeWriter(text, i, fnCallback) {
+    // chekc if text isn't finished yet
+    if (i < (text.length)) {
+      // add next character to h1
+     document.querySelector("h1").innerHTML = text.substring(0, i+1) +'<span aria-hidden="true"></span>';
+
+      // wait for a while and call this function again for next character
+      setTimeout(function() {
+        typeWriter(text, i + 1, fnCallback)
+      }, 55);
+    }
+    // text finished, call callback if there is a callback function
+    else if (typeof fnCallback == 'function') {
+      // call callback after timeout
+      setTimeout(fnCallback, 10);
+    }
+  }
+  // start a typewriter animation for a text in the dataText array
+   function StartTextAnimation(i) {
+     if (typeof dataText[i] == 'undefined'){
+        setTimeout(function() {
+          StartTextAnimation(0);
+        }, 50000);
+     }
+     // check if dataText[i] exists
+    if (i < dataText[i].length) {
+      // text exists! start typewriter animation
+     typeWriter(dataText[i], 0, function(){
+       // after callback (and whole text has been animated), start next text
+       StartTextAnimation(i + 1);
+     });
+    }
+  }
+  // start the text animation
+  StartTextAnimation(0);
+});
+</script>
+{% endblock %}
+

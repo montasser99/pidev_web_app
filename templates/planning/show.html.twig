@@ -1,0 +1,94 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block contenu %}
+
+<div class="col-md-10" style="padding: 0 0 0 270px; margin-top: 36px; margin-bottom: 75px;">
+    <div class="panel panel-default" style="box-shadow: 0 0 15px black; margin-bottom: 90px;">
+        <div class="panel panel-primary" style="margin: 0 -1px 30px -1px;">
+            <div class="panel-heading" style="background-color: #363b5b; padding: 13px 310px; margin-bottom: 23px; color:white; display: flex; justify-content: center; align-items: center;">
+                <h2 >Planning</h2>
+            </div>
+            <fieldset disabled style="padding: 0px; margin: 10px; margin-bottom:21px;">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Point de départ</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.idcir.departc }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Point d'arrivée</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.idcir.departc }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Matricule</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.idmoy.matricule }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Nombre de place actuelle</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.nbplace }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Nombre de place de  {{ planning.idmoy.type }} vide</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.idmoy.capacite }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Prix</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.prix }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="disabledTextInput">Numero</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            placeholder="{{ planning.idmoy.nummoy }}">
+                    </div>
+                   <br> <br> 
+                </div>
+            </fieldset>
+            <a class="btn btn-sm btn-danger"  style="float: right;  padding: 5.6px 30px; margin-top: -60px; margin-right: 11px;"   href="{{ path('app_planning_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
+    {# <table class="table">
+        <tbody>
+            <tr>
+                <th>point de départ</th>
+                <td>{{ planning.idcir.departc }}</td>
+            </tr>
+            <tr>
+                <th>point d'arrivée</th>
+                <td>{{ planning.idcir.arriveec }}</td>
+            </tr>
+              <tr>
+                <th>matricule</th>
+                <td>{{ planning.idmoy.matricule }}</td>
+            </tr>
+            <tr>
+                <th>Nembre de place actuelle</th>
+                <td>{{ planning.nbplace }}</td>
+            </tr>
+                <tr>
+                <th>Nembre de place maximale</th>
+                <td>{{ planning.idmoy.capacite }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ planning.prix }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ planning.idmoy.nummoy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_planning_index') }}">retour</a> #}
+
+    {# <a href="{{ path('app_planning_edit', {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy}) }}">edit</a> #}
+
+{% endblock %}

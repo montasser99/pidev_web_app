@@ -1,0 +1,60 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Offre index{% endblock %}
+
+{% block contenu %}
+    <h1>Liste des offres </h1>
+
+    <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>DureeOffre</th>
+                <th>Discount</th>
+                <th>StatutOffre</th>
+                <th>TitreEve</th>
+                <th>DescEve</th>
+                <th>DateDebEve</th>
+                <th>DateFinEve</th>
+                <th>actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for offre in offres %}
+            <tr>
+                <td>{{ offre.dureeOffre  }}</td>
+                <td>{{ offre.budgetOffre }}%</td>
+                <td>{{ offre.statutOffre }}</td>
+                <td>{{ offre.idu.titreEve  }}</td>
+                <td>{{ offre.idu.descEve }}</td>
+                <td>{{ offre.dateDebEve ? offre.dateDebEve|date('Y-m-d') : '' }}</td>
+                <td>{{ offre.dateFinEve ? offre.dateFinEve|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_offre_show', {'idOffreEve': offre.idOffreEve}) }}"class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_offre_edit', {'idOffreEve': offre.idOffreEve}) }}" class="btn btn-success">Modifier</a>
+                    <form method="post" action="{{ path('app_offre_delete', {'idOffreEve': offre.idOffreEve}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.idOffreEve) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+                    
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+    <a href="{{ path('app_offre_new') }}"class="btn btn-primary">Ajouter</a>
+{% endblock %}
+ 

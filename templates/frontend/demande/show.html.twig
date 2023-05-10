@@ -1,0 +1,38 @@
+{% include 'frontend/demande/index.html.twig' %}
+
+{% block title %}Demande{% endblock %}
+
+{% block body %}
+    <h1>Demande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demande.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomc</th>
+                <td>{{ demande.nomc }}</td>
+            </tr>
+            <tr>
+                <th>Moyen</th>
+                <td>{{ demande.moyen }}</td>
+            </tr>
+            <tr>
+                <th>Hd</th>
+                <td>{{ demande.dated }}</td>
+            </tr>
+            <tr>
+                <th>Ha</th>
+                <td>{{ demande.datea }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demande_index') }}">back to list</a>
+
+    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}">edit</a>
+
+    {{ include('demande/_delete_form.html.twig') }}
+{% endblock %}

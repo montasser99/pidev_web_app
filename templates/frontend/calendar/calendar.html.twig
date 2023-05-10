@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>taktak-front</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+	<meta name="description" content="This is meta description">
+	<meta name="author" content="Themefisher">
+	<link rel="shortcut icon" href="{{asset('images/favicon.png')}}" type="image/x-icon">
+	<link rel="icon" href="{{asset('images/favicon.png')}}" type="image/x-icon">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+ 
+  <!-- theme meta -->
+  <meta name="theme-name" content="wallet" />
+
+	<!-- # Google Fonts -->
+<link rel="preconnect" href="{{ asset('https://fonts.googleapis.com') }}">
+<link rel="preconnect" href="{{ asset('https://fonts.gstatic.com') }}" crossorigin>
+<link href="{{ asset('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap') }}" rel="stylesheet">
+
+
+  <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+	<!-- # CSS Plugins -->
+	<link rel="stylesheet" href="{{ asset('plugins/slick/slick.css')}}">
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome/fontawesome.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome/brands.css')}}">
+	<link rel="stylesheet" href="{{ asset('plugins/font-awesome/solid.css')}}">
+
+	<!-- # Main Style Sheet -->
+	<link rel="stylesheet" href="{{asset('css/style.css')}}">
+</head>
+
+
+<!-- navigation -->
+<header class="navigation bg-tertiary">
+	<nav class="navbar navbar-expand-xl navbar-light text-center py-3">
+		<div class="container">
+			<a class="navbar-brand" href="{{ path('app_frontend')}}">
+				<img loading="prelaod" decoding="async" class="img-fluid" width="160" src="{{ asset('images/logo.png') }}" alt="Wallet">
+				<span >Taktak</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+<li class="nav-item"> <a class="nav-link" href="{{path('app_frontend')}}">Home</a>
+					</li>
+                    	
+					<li class="nav-item "> <a class="nav-link" href="{{ path('app_offre_front') }}">Evenement</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="{{ path('calendrier') }}">Calendrier</a>
+						<li class="nav-item "> <a class="nav-link" href="{{ path('app_demande_new') }}">Demande</a>
+						</li>
+	
+
+				<li class="nav-item"> <a class="nav-link" href="{{ path('app_reclamation_indexfront') }}">Consulter les Reclamations</a>
+					</li>
+                    		<li class="nav-item"> <a class="nav-link" href="{{ path('app_reclamation_new') }}">Passer Une Reclamation</a>
+					</li>
+					
+					
+		
+
+               				 <li class="nav-item "> <a class="nav-link" href="{{ path('app_calendar') }}">Calendar</a>
+					</li>
+
+
+					<li class="nav-item"> <a class="nav-link" href="{{path('profilFront')}}">Profil</a>
+					</li>
+
+
+	<li class="nav-item "> <a class="nav-link" href="{{ path('app_abonnement_new') }}">Abonnement</a>
+					</li>
+                    	<li class="nav-item "> <a class="nav-link" href="{{ path('app_reservation_f') }}">Reservation</a>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+</header>
+<!-- /navigation -->
+     <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #5DADE2; padding: 13px 400px; margin-bottom: 25px; color: aliceblue; display: flex; justify-content: center; align-items: center;">
+                <h2>
+                    <strong>Calendar</strong>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('app_calendar_new') }}" class="button">Create new</a>
+
+<style>
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #7FB3D5;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #4F86A8;
+}
+</style>
+
+    
+
+ 
+     <div id="calendrier"></div>
+ 
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendrier');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                timeZone: 'Tunis',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                events: {{ data|raw }},
+                editable: true,
+                eventResizableFromStart: true,
+                eventClick: function(info) {
+                    console.log(info.event.title);
+                    console.log(info.event.extendedProps.description);
+                    console.log(info.event.start);
+                    console.log(info.event.end);
+                }
+            });
+            
+            calendar.on('eventChange', function(info) {
+                var url = '/api/' + info.event.id + '/edit';
+                var donnees = {
+                    title: info.event.title,
+                    description: info.event.extendedProps.description,
+                    start: info.event.start,
+                    end: info.event.end,
+                    backgroundColor: info.event.backgroundColor,
+                    borderColor: info.event.borderColor,
+                    textColor: info.event.textColor,
+                    allDay: info.event.allDay
+                };
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open('PUT', url);
+                xhr.send(JSON.stringify(donnees));
+            });
+        
+            calendar.render();
+        });
+        </script>
+   <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+ 
+<!-- # JS Plugins -->
+<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>
+<script src="{{asset('plugins/slick/slick.min.')}}"></script>
+<script src="{{asset('plugins/scrollmenu/scrollmenu.min.js')}}"></script>
+
+<!-- Main Script -->
+<script src="{{asset('js/script.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js" integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+
+</html>

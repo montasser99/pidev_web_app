@@ -1,0 +1,67 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Circuit index {% endblock %}
+
+{% block contenu %}
+{% for type, messages in app.flashes() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+    <h1>Circuit index</h1>
+
+ <form action="{{ path('search_app_circuit') }}" method="GET">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for circuits" name="query" >
+        <span class="input-group-btn">
+           
+           <button class="btn btn-primary active">Search</button>
+            
+        </span>
+    </div>
+</form>
+
+
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th>Idcircuit</th>
+                <th>Departc</th>
+                <th>Arriveec</th>
+                <th>Nomc</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for circuit in circuits %}
+            <tr>
+                <td>{{ circuit.idcircuit }}</td>
+                <td>{{ circuit.departc }}</td>
+                <td>{{ circuit.arriveec }}</td>
+                <td>{{ circuit.nomc }}</td>
+                <td>
+                    <a href="{{ path('app_circuit_show', {'idcircuit': circuit.idcircuit}) }}" class="btn btn-info text-white active">show</a>
+                    
+                    <a href="{{ path('app_circuit_edit', {'idcircuit': circuit.idcircuit}) }}" class="btn btn-success text-white active">edit</a>                    
+                    <form method="post" action="{{ path('app_circuit_delete', {'idcircuit': circuit.idcircuit}) }}" style="display: inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ circuit.idcircuit) }}">
+                    <button class="btn btn-danger"  type="submit" >Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+     
+       <a href="{{ path('app_circuit_new') }}" class="btn btn-primary active">Create new</a>
+       
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} New Station {% endblock %}
+
+{% block contenu %}
+    <h1>Create new Station</h1>
+
+    {% for type, messages in app.flashes() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+    {{ include('station/_form.html.twig') }}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}New Moyenstransport
+{% endblock %}
+
+{% block contenu %}
+	<div class="row">
+		<div class="col-md-6" style="margin-left: 270px;">
+
+			<div class="panel panel-default" style="box-shadow: 0 0 30px black;">
+
+				<div class="panel-heading" style="background-color: #363b5b;
+						                             padding: 10px 50px;
+						                             margin-bottom: 23px;
+						                             color: aliceblue; display: flex; justify-content: center; align-items: center; ">
+					<h4>
+						<strong>Nouvelle moyenne de transport</strong>
+					</h4>
+				</div>
+				{{ include('moyenstransport/_form.html.twig') }}
+
+			</div>
+		</div>
+	</div>
+</div></div></div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block contenu %}
+    <h1>Evenement index</h1>
+
+    <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table table-striped">
+                <thead>
+      
+            <tr>
+                <th>IdEve</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date Début</th>
+                <th>Date Fin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.idEve }}</td>
+                <td>{{ evenement.titreEve }}</td>
+                <td>{{ evenement.descEve }}</td>
+                <td>{{ evenement.dateDebEve ? evenement.dateDebEve|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.dateFinEve ? evenement.dateFinEve|date('Y-m-d') : '' }}</td>
+                <td>
+                <a href="{{ path('app_evenement_show', {'idEve': evenement.idEve}) }}"class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_evenement_edit', {'idEve': evenement.idEve}) }}" class="btn btn-success">Modifier</a>
+                    <form method="post" action="{{ path('app_evenement_delete', {'idEve': evenement.idEve}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline-block;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ evenement.idEve) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>  
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<a href="{{ path('app_evenement_new') }}"class="btn btn-primary">Ajouter</a>
+<a href="{{ path('calendrier') }}"class="btn btn-primary">Calendrier</a>
+<a href="{{ path('pdf') }}"class="btn btn-primary">pdf</a>
+
+
+  
+{% endblock %}

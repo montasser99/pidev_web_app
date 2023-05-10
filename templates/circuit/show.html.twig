@@ -1,0 +1,35 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Circuit {% endblock %}
+
+{% block contenu %}
+    <h1>Circuit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idcircuit</th>
+                <td>{{ circuit.idcircuit }}</td>
+            </tr>
+            <tr>
+                <th>Departc</th>
+                <td>{{ circuit.departc }}</td>
+            </tr>
+            <tr>
+                <th>Arriveec</th>
+                <td>{{ circuit.arriveec }}</td>
+            </tr>
+            <tr>
+                <th>Nomc</th>
+                <td>{{ circuit.nomc }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('app_circuit_index') }}" class="btn btn-secondary">back to list</a>
+    
+   
+
+    
+
+   
+{% endblock %}

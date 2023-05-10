@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Etat journaliere</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #F0F0F0;
+		}
+		h1 {
+			text-align: center;
+			color: #1E90FF;
+			margin-top: 30px;
+		}
+		table {
+			border-collapse: collapse;
+			width: 70%;
+			margin: 50px auto;
+            			box-shadow: 0px 0px 10px #888888;
+
+		}
+		th {
+			background-color: #1E90FF;
+			color: black;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 10px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		td {
+			background-color: #F0F8FF;
+			color: green;
+			font-size: 16px;
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+		}
+		.transport {
+			font-size: 20px;
+			margin-top: 10px;
+		}
+		.price {
+			color: #FF6347;
+			font-size: 20px;
+			margin-top: 20px;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Etat journaliere</h1>
+{% if type =='Bus' %}
+	<img src="{{ absolute_url(asset('uploads/images/bus.png')) }}" style="width: 300px;height: 300px; margin: 20px auto;margin-left: 215px;" alt="Image de bus">
+{% elseif type =='Metro' %}
+	<img src="{{ absolute_url(asset('uploads/images/metro.jpg')) }}" style="width: 300px;height: 300px; margin: 20px auto;margin-left: 215px;" alt="Image de metro">
+{% else %}
+	<img src="{{ absolute_url(asset('uploads/images/train.jpg')) }}" style="width: 300px;height: 300px; margin: 20px auto;margin-left: 215px;" alt="Image de Train">
+{% endif %}
+
+<table>
+	<tr>
+		<th>Nom de l'administrateur</th>
+		<td>Montasser benouirane</td>
+	</tr>
+	<tr>
+		<th>Date de reservation</th>
+		<td>{{dateRes}}</td>
+	</tr>
+	<tr>
+		<th>Date d'impression</th>
+		<td>{{dateNow}}</td>
+	</tr>
+	<tr>
+		<th>Moyen de transport</th>
+		<td>{{type ~' '~ numeroT}}</td>
+	</tr>
+	<tr>
+		<th>Prix totale</th>
+		<td>{{total}}</td>
+	</tr>
+	
+</table>
+<h4 style="text-align:center">Signature electronique</h4>
+<img  src="{{ absolute_url(asset(file)) }}" style="margin-left: 215px;" alt="Signature">
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+{% extends 'frontend/index.html.twig' %}
+
+{% block title %}Reservation
+{% endblock %}
+
+{% block body %}
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Select2 library -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+
+
+	{# en represente l'image floue #}
+	<div class="bg-image blur-background " style="height: 500px;"></div>
+
+	<div class="wrapper">
+
+		<!-- Fields -->
+		<div class="fields-box">
+
+
+			<div style="display: flex;">
+				<form method="post" action="{{ path('app_Reservation_RV') }}" style="display: inline-block;">
+					<label for="new-num" style="color:black; margin-right: 10px;">
+						<h5>Sélectionner le circuit</h5>
+						<input type="text" list="circuits" name="circuit" placeholder="Entrer votre destination">
+						<datalist id="circuits">
+							{% for circuit in circuits %}
+								<option value="{{ circuit.departc }} - {{ circuit.arriveec }}">
+								{% endfor %}
+							</datalist>
+						</label>
+
+						<input type="hidden" name="circuitId" id="circuitId">
+
+
+						<label>
+							<h5>Sélectionner transport</h5>
+							<select id="default" name="transportName" class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="padding: 6px; width: 328; height: 54px; margin-top: -1px; margin-right: 51px; margin-left: -3px; font-size: 19px;">
+								<option selected disabled>choisie un moyenne de transport</option>
+								<option value="Bus">Bus</option>
+								<option value="Metro">Metro</option>
+								<option value="Train">Train</option>
+							</select>
+						</label>
+						<style>
+							select,
+							select option {
+								color: black;
+							}
+						</style>
+						<button type="submit" style="    background-color: darkseagreen;
+							    width: 168px;
+							    height: 63px;
+							    margin-left: 100px;
+							    margin-top: -2px;" class="btn">Rechercher..</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+		{% for message in app.flashes('Message') %}
+        <script>
+           Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: "{{ message }}",
+              showConfirmButton: false,
+              timer: 2500
+           })    
+        </script>
+		{% endfor %}
+
+		<style>
+			.bg-image {
+				background-image: url({{ asset('images/bckg.jpg') }});
+				background-size: cover;
+				background-position: center;
+				position: relative;
+			}
+
+			.blur-background {
+				filter: blur(4px);
+			}
+
+			.wrapper {
+				position: absolute;
+				top: 34%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 100%;
+				max-width: 981px;
+				border-radius: 20px;
+				background: rgba(255, 255, 255, 0.3);
+
+			}
+			.fields-box {
+				padding: 26px 5%;
+			}
+
+			.fields-box label {
+				display: inline-block;
+				width: 33.33%;
+				padding: 6px 12px;
+			}
+
+			.fields-box label input {
+				width: 100%;
+				padding: 9px;
+				color: black;
+				background: #FFFFFF;
+				background: rgba(255, 255, 255, 0.9);
+				border: none;
+				outline: none;
+				border-radius: 19px;
+				font-size: 20px;
+			}
+			{
+				# .wrapper {
+					animation-name: slideIn;
+					animation-duration: 2s;
+					animation-delay: 0.5s;
+					animation-fill-mode: forwards;
+				}
+
+				@keyframes slideIn {
+					from {
+						opacity: 0;
+					}
+					to {
+						opacity: 1;
+					}
+				}
+				#
+			}
+		</style>
+	{% endblock %}

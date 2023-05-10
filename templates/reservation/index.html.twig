@@ -1,0 +1,62 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+{% block contenu %}
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading  " style="background-color: #363b5b;
+					                             padding: 13px 500px;
+					                         margin-bottom: 25px;
+					                         color: aliceblue; display: flex; justify-content: center; align-items: center;">
+				<h2>
+					<strong>Reservation</strong>
+				</h2>
+			</div>
+
+			<div class="col-sm-3">
+				<form class="d-flex" method="GET" action="{{ path('app_recherche_res', {'filter': ''}) }}">
+					<input class="form-control" name="filter" type="text" id="navbar-search-input" placeholder="chercher..">
+					<button class="btn btn-dark" type="submit" title="Search">
+						<i class="bi bi-search"></i>
+					</button>
+				</form>
+			</div>
+
+			<div class="panel-body">
+				<table class="table table-striped datatable ">
+					<thead>
+						<tr>
+							<th>Ticket</th>
+							<th>Heure de reservation</th>
+							<th>Heure de depart</th>
+							<th>Heure d'arriver</th>
+							<th>Type</th>
+							<th>Cin</th>
+							<th>Prix</th>
+							<th>Numero de transport</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for reservation in reservations %}
+							<tr>
+								<td>{{ reservation.idnum }}</td>
+								<td>{{ reservation.dater ? reservation.dater|date('H:i:s') : '' }}</td>
+								<td>{{ reservation.heuredep ? reservation.heuredep|date('H:i:s') : '' }}</td>
+								<td>{{ reservation.heurearr ? reservation.heurearr|date('H:i:s') : '' }}</td>
+								<td>{{ reservation.type }}</td>
+								<td>{{ reservation.cin }}</td>
+								<td>{{ reservation.prix }}</td>
+								<td>{{ reservation.numerot }}</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

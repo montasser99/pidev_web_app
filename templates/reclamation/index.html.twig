@@ -1,0 +1,170 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    {# <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/search.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search-form').on('submit', function(event) {
+                event.preventDefault();
+                var query = $('input[name="searchInput"]').val();
+                $.ajax({
+                    url: '/search',
+                    data: {query: query},
+                    success: function(response) {
+                        const results = response.map(result => `
+                            <li>
+                                <a href="/show/${result.id}">
+                                    ${result.nom} ${result.prenom}
+                                </a>
+                            </li>
+                        `).join('');
+                        $('#searchResult').html(`<ul>${results}</ul>`);
+                    },
+                    error: function() {
+                        $('#searchResult').html('Error fetching search results.');
+                    }
+                });
+            });
+        });
+    </script> #}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/repreclamation.css') }}">
+{% endblock %}
+
+
+{% block contenu %}    
+<div class="sidebar-search">
+  <div class="input-group custom-search-form">
+      <input type="text" id="search" class="form-control" placeholder="Rechercher...">
+  </div>
+  <!-- /input-group -->
+</div>
+      <!-- /input-group -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var searchRequest = null;
+        $("#search").keyup(function() {
+            var minlength = 1;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#search-results").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null) {
+                    searchRequest.abort();
+                }
+
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('ajax_search') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        if (value==$(that).val()) {
+                            var result = JSON.parse(msg);
+                            var tableRows = '';
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function (id, value) {
+                                    if (key === 'reclamation') {
+                                        if(id !== 'error'){
+                                            const date = new Date(value[2].date);
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+});
+ 
+                                            tableRows += '<tr>';
+                                            tableRows += '<td>' + value[0] + '</td>'; // Nom
+                                            tableRows += '<td>' + value[1] + '</td>'; // Prénom
+                                            tableRows += '<td>' + formattedDate + '</td>'; // Date
+                                            tableRows += '<td>' + value[3] + '</td>'; // Contenu
+                                                                                       tableRows += '<td><div class="btn-group">';
+                                            tableRows += '<a href="http://127.0.0.1:8000/reclamation/'+id+'" class="btn btn-primary btn-sm">';
+                                            tableRows += '<i class="bi bi-eye"></i> Afficher</a>';
+                                            tableRows += '<a href="http://127.0.0.1:8000/reclamation/delete/'+id+'" class="btn btn-primary btn-sm">';
+                                            tableRows += '<i class="bi bi-trash"></i> Supprimer</a>';   
+                                              tableRows += '<a href=" http://127.0.0.1:8000/repreclamation/new?idr=/'+id+'" class="btn btn-primary btn-sm">';
+                                                                  tableRows += '<i class="bi bi-pen"></i> Repondre</a>';
+
+ 
+                                            tableRows += '</tr>';
+
+
+                                            tableRows += '</tr>';
+                                        }
+                                    }
+                                });
+                            });
+                            entitySelector.append(tableRows);
+                        }
+                    }
+                });
+            } else { 
+                location.reload();
+            }
+        });
+    }); 
+</script>
+ 
+		
+   <table class="table" id="search-table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Date</th>
+      <th>Contenu</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="search-results">
+    {% if reclamations is empty %}
+      <tr>
+        <td colspan="5">Aucun résultat trouvé.</td>
+      </tr>
+    {% else %}
+      {% for reclamation in reclamations %}
+        <tr>
+          <td>{{ reclamation.nom }}</td>
+          <td>{{ reclamation.prenom }}</td>
+          <td>{{ reclamation.dater ? reclamation.dater|date('Y-m-d') : '' }}</td>
+          <td>{{ reclamation.descrec }}</td>
+          <td>
+            <div class="btn-group">
+              <a href="{{ path('app_reclamation_show', {'idr': reclamation.idr}) }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-eye"></i>
+                Afficher
+              </a>
+              <form method="post" action="{{ path('app_reclamation_delete', {'idr': reclamation.idr}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reclamation.idr) }}">
+                <button type="submit" class="btn btn-danger btn-sm">
+                  <i class="bi bi-trash"></i>
+                  Supprimer
+                </button>
+              </form>
+              <a href="{{ path('app_repreclamation_new', {'idr': reclamation.getIdr()}) }}" class="btn btn-warning btn-sm">
+                <i class="bi bi-reply-fill"></i>
+                Répondre
+              </a>
+              <form method="get" action="{{ path('app_repreclamation_new') }}" style="display: inline;">
+                <input type="hidden" name="idr" value="{{ reclamation.idr }}">
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}

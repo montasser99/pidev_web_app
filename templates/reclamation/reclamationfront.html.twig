@@ -1,0 +1,78 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6">
+                <div class="section-title text-center">
+                    <p class="text-primary text-uppercase fw-bold mb-3">Merci de</p>
+                    <h1>Passer Votre Réclamation içi </h1>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="shadow rounded p-5 bg-white">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                        </div>
+                        <div class="col-lg-6 mx-auto"> <!-- Added mx-auto class -->
+                            <div class="contact-form">
+                                <div class="form-group mb-4 pb-2">
+                                    {{ form_label(form.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.nom, {'attr': {'class': 'form-control shadow-none', 'required': 'required'}}) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.nom) }}
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4 pb-2">
+                                    {{ form_label(form.prenom, 'Prenom', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control shadow-none', 'required': 'required'}}) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.prenom) }}
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4 pb-2">
+                                    {{ form_label(form.dater, 'Date', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.dater, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.dater) }}
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4 pb-2">
+                                    {{ form_label(form.descrec, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_widget(form.descrec, {'attr': {'class': 'form-control shadow-none', 'required': 'required'}}) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.descrec) }}
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ form_end(form) }}
+
+<script>
+(function() {
+    'use strict';
+
+    var forms = document.querySelectorAll('.needs-validation');
+
+    Array.prototype.slice.call(forms).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                window.location.href = 'reclamation/app_reclamation_indexfront'; // add this line to redirect to the desired URL
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>

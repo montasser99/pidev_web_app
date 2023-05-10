@@ -1,0 +1,12 @@
+{% extends 'base-back.html.twig' %}
+{% block contenu %}
+{% block title %}New Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Create new Utilisateur</h1>
+
+    {{ include('utilisateur/_form.html.twig') }}
+
+    <button type="button" style="width:40%;margin-left:100px" class="btn btn-outline-dark"  onclick="location.href='{{ path('app_utilisateur_index') }}'">back to list</button>
+{% endblock %}
+{% endblock %}

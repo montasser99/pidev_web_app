@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{ asset('LoginSignupDesign/fonts/material-icon/css/material-design-iconic-font.min.css')}}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{ asset('LoginSignupDesign/css/style.css')}}" >
+    
+</head>
+<body>
+
+    <div class="main">
+     <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                       
+
+{{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+                      
+                     <div class="form-group">
+                        {{ form_label(registrationForm.nomu, '.', {label_attr: {'class': 'zmdi zmdi-account material-icons-name'}}) }}
+                        {{ form_widget(registrationForm.nomu, {attr: {'class': 'form-control', 'id': 'yourName','placeholder':'Your Name'}}) }}
+                    <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.nomu) }}</div>
+                    </div>   
+ 
+                    <div class="form-group">
+                        {{ form_label(registrationForm.prenomu, '.', {label_attr: {'class': 'zmdi zmdi-account material-icons-name'}}) }}
+                        {{ form_widget(registrationForm.prenomu, {attr: {'class': 'form-control', 'id': 'yourSurname','placeholder':'Your Surname'}}) }}
+                    <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.prenomu) }}</div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.telephoneu, '*', {'label_attr': {'class': 'class="zmdi zmdi-whatsapp'}}) }}
+                        {{ form_widget(registrationForm.telephoneu, {'attr': {'class': 'form-control', 'id': 'yourPhone', 'placeholder':'(+216) Phone number'}}) }}
+                    <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.telephoneu) }}</div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.cinu, '*', {'label_attr': {'class': 'zmdi zmdi-account material-icons-name'}}) }}
+                        {{ form_widget(registrationForm.cinu, {'attr': {'class': 'form-control', 'id': 'yourCin', 'placeholder':'CIN'}}) }}
+                        <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.cinu) }}</div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.imagepu, '*', {'label_attr': {'class': 'zmdi zmdi-account material-icons-name'}}) }}
+                        {{ form_widget(registrationForm.imagepu, {'attr': {'class': 'form-control', 'id': 'yourImage', 'placeholder':'IMAGE'}}) }}
+                        <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.imagepu) }}</div>
+                    </div> 
+                    
+                 <div class="form-group">
+                {{ form_label(registrationForm.email, '*', {'label_attr': {'class': 'zmdi zmdi-email'}}) }}
+
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'id': 'yourEmail', 'placeholder':'Your Email'}}) }}
+
+                <div class="invalid-feedback" style="color:red">{{ form_errors(registrationForm.email) }}</div>
+                </div>
+                    
+                            
+                <div class="form-group">
+            {{ form_label(registrationForm.plainPassword, '*', {'label_attr': {'class': 'zmdi zmdi-lock'}}) }}
+
+            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'id': 'yourPassword', 'placeholder':'Password', 'autocomplete': 'new-password'}}) }}
+
+           <div style="color:red"> {{ form_errors(registrationForm.plainPassword, {'attr': {'class': 'invalid-feedback'}}) }}</div>
+        </div>
+                    <div class="form-group">
+                            {{ form_label(registrationForm.idadresse, 'Adresse', {'label_attr': {'class': 'zmdi zmdi-account material-icons-map','placeholder':'Choose adresse'}}) }}
+                        <div class="form-group">
+                           {{ form_widget(registrationForm.idadresse, {'attr': {'class': 'form-select form-control'}}) }}
+                        </div>
+
+                    </div>
+                       
+                     
+                      
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                    <div class="signup-image">
+                        
+                        <figure><img src="{{ asset('LoginSignupDesign/images/signup-image.jpg')}}" alt="sing up image"></figure>
+
+                        <a href="{{ path('app_logout') }}" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+</div>
+
+    <!-- JS -->
+    <script src="{{ asset('LoginSignupDesign/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{ asset('LoginSignupDesign/js/main.js')}}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>        

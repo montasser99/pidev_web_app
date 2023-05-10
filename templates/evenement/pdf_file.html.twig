@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Participants</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      header {
+        background-color: #4c71de;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 20px auto;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #4c71de;
+        color: white;
+      }
+      .even-row {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Participants</h1>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Participants</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for evenement in evenements %}
+        <tr class="">
+          <td>{{ evenement.titreEve }}</td>
+          <td>{{ evenement.descEve }}</td>
+          <td>{{ evenement.dateDebEve|date('Y-m-d') }}</td>
+          <td>{{ evenement.dateFinEve|date('Y-m-d') }}</td>
+          <td>{{ evenement.participations|length }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

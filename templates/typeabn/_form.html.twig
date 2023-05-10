@@ -1,0 +1,33 @@
+<div class="card">
+<div class="card-body">
+<h5 class="card-title">Type Abonnement</h5>
+{{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+<div class="form-group">
+    <div class="row mb-3">
+        <label for="inputText" class="col-sm-2 col-form-label">Durée</label>
+        <div class="col-sm-10">
+            {{ form_widget(form.dureeA, {'attr': {'class': 'form-control', 'id': 'inputText'}}) }}
+            {{ form_errors(form.dureeA) }}
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="row mb-3">
+        <label for="inputNumber" class="col-sm-2 col-form-label">Prix</label>
+        <div class="col-sm-10">
+            {{ form_widget(form.prixA, {'attr': {'class': 'form-control', 'id': 'inputNumber'}}) }}
+            {{ form_errors(form.prixA) }}
+        </div>
+    </div>
+</div>
+
+ <div class="col-sm-10">
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+
+{{ form_end(form) }}
+</div>
+</div>
+

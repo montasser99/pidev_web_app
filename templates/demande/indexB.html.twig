@@ -1,0 +1,52 @@
+{% extends 'base-back.html.twig' %}
+{% block title %}Demande index{% endblock %}
+
+{% block contenu %}
+{% for type, messages in app.flashes() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+    <h1>Demande index</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nomc</th>
+                <th>Moyen</th>
+                <th>Date Départ</th>
+                <th>Date arrivée</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for demande in demandes %}
+            <tr>
+                <td>{{ demande.id }}</td>
+                <td>{{ demande.nomc }}</td>
+                <td>{{ demande.moyen }}</td>
+                <td>{{ demande.dated }}</td>
+                <td>{{ demande.datea }}</td>
+                
+                <td>
+                    
+                     <a href="{{ path('app_demande_show', {'id': demande.id}) }}" class="btn btn-info text-white active">show</a>
+                    <a href="{{ path('send-emailSMS-accept') }}" class="btn btn-success text-white active">Accept</a>
+                    <a href="{{ path('send-emailSMS-refuse') }}" class="btn btn-danger active">Refuse</a>
+
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

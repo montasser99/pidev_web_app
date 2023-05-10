@@ -1,0 +1,411 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %} Planning index {% endblock %}
+
+
+{% block contenu %}
+
+
+
+   <div class="col-md-12">
+                <div class="panel panel-default"  >
+                    <div class="panel-heading  " style="background-color: #363b5b;
+                             padding: 13px 500px;
+                         margin-bottom: 25px;
+                         color: aliceblue; display: flex; justify-content: center; align-items: center;">
+                           <h2><strong>Planning</strong></h2>
+                    </div>
+
+Recherche simple
+  <div class="col-sm-3">
+    <form class="d-flex" method="GET" action="{{ path('app_recherche_pla', {'filter': ''}) }}">
+  <input class="form-control" name="filter" type="text" id="navbar-search-input" placeholder="chercher.."  >
+      <button class="btn btn-dark" type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form> 
+  </div>
+
+{# Recherche avec avancée
+<form class="d-flex" method="GET" action="{{ path('app_recherche_Avance') }}" id="myForm">
+    <input type="hidden" id="transport" name="transport" value="">
+    <input type="hidden" id="prix" name="prix" value="">
+    <button class="btn btn-dark" type="submit" onclick="RechercheFunction(event, this.form)" title="Search">Filter Search</button>
+</form> #}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn" style="background-color:#363b5b; color:white; font-weight: bold;" data-toggle="modal" data-target="#exampleModalCenter">
+ <i class="bi bi-search"></i> Recherche avancée
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-5" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Planning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form method="GET" action="{{ path('app_recherche_Avance')}}" novalidate data-action="{{ path('app_recherche_Avance')}}">
+  <div class="modal-body">
+          <label for="transport">Transport:</label>
+          <select id="transport" name="transport" class="swal2-input" style="margin-left: 10px; width: 216px;">
+            {% for transport in transports %} 
+              <option value="{{ transport.idmoy }}">{{ transport.type }}</option>
+            {% endfor %}
+          </select><br>
+
+          <label for="circuit">Circuit:</label>
+          <select id="circuit" name="circuit" class="swal2-input" style="    width: 215px;">
+            {% for circuit in circuits %}
+              <option value="{{ circuit.idcir }}">{{ circuit.departc }} - {{ circuit.arriveec }}</option> 
+            {% endfor %}
+          </select>
+          <br>  
+          <label for="departure-time">heure intervalle 1</label>
+          <input type="time" id="departure-time" name="intervalle1" class="form-control" step="10" min="08:00:00" max="18:00:00">
+
+          <label for="arrival-time">heure intervalle 2</label>
+          <input type="time" id="arrival-time" name="intervalle2" class="form-control" step="10" min="08:00:00" max="18:00:00">
+        </div>
+
+        <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+<button type="submit" class="btn btn-primary" onclick="showSpinner()" >rechercher..</button>
+        </div>      <div class="loading" id="loading">
+  <div class="loading-spinner"></div>
+</div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+   <div class="panel-body">
+   <table  class="table table-striped datatable ">
+        <thead>
+            <tr>
+                <th>Type de transport</th>
+                <th>point de départ</th>
+                <th>point d'arrivée</th>
+                <th>heure de depart</th>
+                <th>heure d'arrivée</th>
+                <th>Nombre de place</th>
+                <th>Numero</th>
+                <th>Prix</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+   
+        {% for planning in plannings %}
+                <td>
+                  {% if planning.idmoy.type =='Bus' %}
+                  <img src="{{ asset('uploads/images/bus.png') }}" alt="Image de bus" style=" width: 50px; height: 50px; border-radius: 50%; ">
+                {% elseif planning.idmoy.type =='Metro' %}
+                  <img src="{{ asset('uploads/images/metro.jpg') }}" alt="Image de metro" style=" width: 50px; height: 50px; border-radius: 50%; ">
+                {% else %}
+                  <img src="{{ asset('uploads/images/train.jpg') }}" alt="Image de Train" style=" width: 50px; height: 50px; border-radius: 50%; ">
+                {% endif %}
+                {{ planning.idmoy.type }}</td>
+                <td>{{ planning.idcir.departc }}</td>
+                <td>{{ planning.idcir.arriveec }}</td>
+                <td>{{ planning.dated|date('H:i:s') }}</td>
+                <td>{{ planning.Datea|date('H:i:s') }}</td>
+                <td>{{ planning.nbplace }}</td>  
+                <td>{{ planning.idmoy.nummoy }}</td>
+                <td>{{ planning.prix }}</td>
+              
+                <td>
+		    <a href="{{ path('app_planning_show',  {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy})}}" class="btn btn-secondary"><i class="bx bx-show-alt"></i></a>
+            <a href="{{ path('app_planning_edit', {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy}) }}"class="btn btn-success"><i class="bx bx-edit"></i></a>
+            {# <a href="{{ path('app_planning_delete', {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy}) }}" class="btn btn-danger"><i class="bi bi-trash"></i></a> #}
+
+            <a href="{{ path('app_useradd_pla', {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy, 'nbPlace': planning.nbplace}) }}"class="btn btn-info"><i class="bx bx-user-plus"></i></a>
+
+            <form  method="post" action="{{ path('app_planning_delete', {'dated': planning.dated, 'idcir': planning.idcir.idcircuit, 'idmoy': planning.idmoy.idmoy}) }}" style="display: inline-block;">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_' ~ planning.dated ~ '_' ~ planning.idcir.idcircuit ~ '_' ~ planning.idmoy.idmoy) }}">
+            <button class="btn btn-danger" type="button" onclick="deleteFunction(event, this.form)"> <i class="bi bi-trash"></i>
+            </button>
+            </form>
+
+            </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">table vide</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_planning_new') }}" class="btn btn-primary">Créer un nouveau</a>
+
+</div>
+</div>
+</div>
+</div>
+
+    {% for message in app.flashes('added') %}
+    <script>
+Swal.fire({
+  icon: 'error',
+  title: 'Nombre de place est plain !',
+  text: '',
+})
+
+    </script>
+    {% endfor %}
+
+     {% for message in app.flashes('notice') %}
+        <script>
+        
+           Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: "{{ message }}",
+              showConfirmButton: false,
+              timer: 2500
+           })    
+        </script>
+     {% endfor %}
+
+<script>
+  function deleteFunction(event, form) {
+    event.preventDefault(); // prevent form submit
+    var btn = event.target; // storing the button element
+    btn.disabled = true; // disable the button to prevent double click
+    Swal.fire({
+      title: 'Es-tu sûr?',
+      text: "Vous ne pourrez pas revenir en arrière !",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText:'Annuler',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le !',
+      closeOnCancel: false,
+      closeOnConfirm: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        form.submit(); // submitting the form when user press yes
+        Swal.fire({
+          title: 'Supprimé !',
+          text: 'Votre fichier a été supprimé.',
+          icon: 'success',
+          closeOnCancel: true,
+          closeOnConfirm: true
+        })
+      } else {
+        btn.disabled = false; // re-enable the button
+        Swal.fire({
+          title: 'Annulé',
+          text: 'Votre fichier est en sécurité :)',
+          icon: 'error',
+          closeOnCancel: true,
+          closeOnConfirm: true
+        })
+      }
+    });
+  }
+</script>
+
+<script>
+var loadingDiv = document.getElementById('loading');
+
+function showSpinner() {
+  loadingDiv.style.visibility = 'visible';
+}
+
+function hideSpinner() {
+  loadingDiv.style.visibility = 'hidden';
+}
+</script>
+
+<style>
+
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  visibility: hidden;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 5000ms infinite linear;
+  -moz-animation: spinner 5000ms infinite linear;
+  -ms-animation: spinner 5000ms infinite linear;
+  -o-animation: spinner 5000ms infinite linear;
+  animation: spinner 5000ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+</style>
+{# Here new code 
+<script>
+async function RechercheFunction(event, form) {
+  event.preventDefault(); // Prevent the form from submitting and reloading the page
+  
+  const { value: transport } = await Swal.fire({
+    title: 'Select a transport',
+    input: 'select',
+    inputOptions: {
+      'Train': 'Train',
+      'Metro': 'Metro',
+      'Bus': 'Bus'
+    },
+    inputPlaceholder: 'Select a transport',
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value) {
+          resolve()
+        } else {
+          resolve('You need to select a transport')
+        }
+      })
+    }
+  })
+
+  if (transport) {
+    const { value: prix } = await Swal.fire({
+      title: `Enter the price for ${transport}`,
+      input: 'number',
+      inputPlaceholder: 'Enter a price',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value) {
+            resolve()
+          } else {
+            resolve('You need to enter a price')
+          }
+        })
+      }
+    })
+
+ if (prix) {
+    Swal.fire({
+        title: 'Processing...',
+        didOpen: () => {
+            Swal.showLoading();
+            document.getElementById('transport').value = transport;
+            document.getElementById('prix').value = prix;
+            form.submit(); // Submit the form
+        }
+    });
+ }
+ }
+}
+</script> #}
+
+{% endblock %}

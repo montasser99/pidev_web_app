@@ -1,0 +1,17 @@
+{{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+    
+    <div class="row">
+    <div class="col">{{ form_row(form.nomu) }}</div>
+    <div class="col">{{ form_row(form.prenomu) }}</div>
+    </div>
+     <div class="col">{{ form_row(form.password) }}</div>
+    {{ form_rest(form) }}
+    {{ form_errors(form) }}
+
+    
+    <div style="display: flex; justify-content: center;">
+    <button class="btn btn-outline-info" style="    margin-right: 796px;
+    margin-bottom: -37px;
+    margin-top: 27px;" >{{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

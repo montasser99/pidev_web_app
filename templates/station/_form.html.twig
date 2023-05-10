@@ -1,0 +1,43 @@
+
+<div class="panel-body">
+       
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+<div class="form-body" style="    padding: 25px;
+    margin-top: -26px;
+    margin-bottom: 6px;
+    margin-right: -190px;"> 
+
+<div class="form-group col-md-9" style="display: inline-block;">
+<label>Nom Station</label>
+    {{ form_widget(form.nomS,{attr:{'class':' form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.nomS,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+
+<div class="form-group col-md-9" >
+<label>Adresse</label>
+    {{ form_widget(form.adresse,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.adresse,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+
+<div class="form-group col-md-9" >
+<label>Circuit</label>
+    {{ form_widget(form.idcircuit,{attr:{'class':'form-control'}}) }}
+<span style="color: red">
+    {{ form_errors(form.idcircuit,{attr:{'class':'text-danger'}})  }}
+</span>
+</div>
+<div class="text-center">
+<button type="submit" class="btn btn-primary" style="background-color: #4DA2FB; color: #fff; margin-top: 35px; width: 70px; margin-left: -183px;">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+<a type="submit" class="btn btn-sm btn-danger" style="background-color: #7B7D7D; color: #fff; margin-top: 35px; width: 70px;" href="{{ path('app_station_index') }}">Back</a>
+  </div>
+
+
+{{ form_end(form) }}
+</div>
+</div>

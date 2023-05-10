@@ -1,0 +1,52 @@
+
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title"></h5>
+		{{form_start(form,{'attr': {'novalidate': 'novalidate'}})}}
+
+		<div class="row mb-3">
+			<label for="inputText" class="col-sm-2 col-form-label">Nom</label>
+			<div class="col-sm-3">
+				{{ form_widget(form.nom,{attr:{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_errors(form.nom,{attr:{'class':'text-danger'}})  }}
+			</div>
+		</div>
+
+
+		<div class="row mb-3">
+			<label for="inputText" class="col-sm-2 col-form-label">Prenom</label>
+			<div class="col-sm-3">
+				{{ form_widget(form.prenom,{attr:{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_errors(form.prenom,{attr:{'class':'text-danger'}})  }}
+			</div>
+		</div>
+   
+		<div class="row mb-3">
+			<label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-3">
+				{{ form_widget(form.dater,{attr:{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+				{{ form_errors(form.dater,{attr:{'class':'text-danger'}})  }}
+			</div>
+		</div>
+
+          <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+                  <div class="col-sm-5">
+                  				{{ form_widget(form.descrec,{attr:{'class':'form-control'}}) }}
+
+                    {# <textarea class="form-control" style="height: 100px"></textarea> #}
+                  </div>
+                </div>
+
+    
+	</div>
+</div>
+<button class="btn" onclick="window.location.href='{{ path('app_reclamation_indexfront') }}'">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

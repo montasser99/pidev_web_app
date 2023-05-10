@@ -1,0 +1,58 @@
+{% extends 'base-back.html.twig' %}
+{# {% extends 'back.html.twig' %} #}
+
+{% block title %}Typeabn index{% endblock %}
+
+{% block contenu %}
+    {# <h1>Typeabn index</h1> #}
+      <div class="pagetitle">
+      <h1>Liste des plans</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{path('app_backend')}}">Home</a></li>
+          {# {# <li class="breadcrumb-item">Tables</li> #}
+          <li class="breadcrumb-item active"><a href="{{ path('app_typeabn_new') }}">Create new</a></li> 
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Plans</h5>
+              {# <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> #}
+
+              <!-- Table with stripped rows -->
+    <table class="table ">
+        <thead>
+            <tr>
+                <th scope="col">IdtypeA</th>
+                <th scope="col">DureeA</th>
+                <th scope="col">PrixA</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for typeabn in typeabns %}
+            <tr>
+                <td>{{ typeabn.id }}</td>
+                <td>{{ typeabn.dureeA }}</td>
+                <td>{{ typeabn.prixA }}</td>
+                <td>
+                    <a href="{{ path('app_typeabn_show', {'id': typeabn.id}) }}">show</a>
+                    <a href="{{ path('app_typeabn_edit', {'id': typeabn.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

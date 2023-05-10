@@ -1,0 +1,27 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}New Planning{% endblock %}
+
+{% block contenu %}
+        <div class="row">
+            <div class="col-md-10" style="margin-left: 110px;">
+
+                <div class="panel panel-default" style="box-shadow: 0 0 30px black;">
+
+                    <div class="panel-heading" style="background-color: #363b5b;
+                             padding: 10px 50px;
+                             margin-bottom: 23px;
+                             color: aliceblue; display: flex; justify-content: center; align-items: center; ">
+    <h4><strong>Créer une nouvelle planning</strong></h4>
+                    </div>
+
+    {{ include('planning/_form.html.twig', {'button_label': 'Créer'}) }}
+    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

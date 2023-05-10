@@ -1,0 +1,76 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Etat journaliere{% endblock %}
+{% block contenu %}
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading  " style="background-color: #363b5b;
+					                             padding: 13px 500px;
+					                         margin-bottom: 25px;
+					                         color: aliceblue; display: flex; justify-content: center; align-items: center;">
+				<h2>
+					<strong>Etat journaliere</strong>
+				</h2>
+			</div>
+
+			{# <div class="col-sm-3">
+				<form class="d-flex" method="GET" action="{{ path('app_recherche_res', {'filter': ''}) }}">
+					<input class="form-control" name="filter" type="text" id="navbar-search-input" placeholder="chercher..">
+					<button class="btn btn-dark" type="submit" title="Search">
+						<i class="bi bi-search"></i>
+					</button>
+				</form>
+			</div> #}
+
+			<div class="panel-body">
+				<table class="table table-striped datatable ">
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th>Numero de transport</th>
+							<th>Total </th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for etatj in etatJ %}
+							<tr>
+								<td>{{ etatj.type }}</td>
+								<td>{{ etatj.numerot }}</td>
+								<td>{{ etatj.sum }}</td>
+								<td>
+								    <a href="{{ path('app_signature', {'id':etatj.idnum,'type':etatj.type,'numeroT':etatj.numerot|replace({'/': '_', '-': '_'}),'total':etatj.sum ,'dateRes':etatj.datereservation|date('Y-m-d')}) }}" class="btn btn-info mt-3"> <i class=" ri-file-download-line"></i> {{ button_label|default('télécharger pdf') }}</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="9">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				{% if etatJ is not empty() %}
+				<a href="#" class="btn btn-primary" id="download-btn"> <i class=" ri-file-download-line"></i> Télécharger tous</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+<script>
+    var downloadBtn = document.getElementById('download-btn');
+
+    downloadBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Encode the data as JSON
+        var etatJ = {{ etatJ|json_encode|raw }};
+
+        // Create the download URL with the encoded data as a query parameter
+        var downloadUrl = "{{ path('app_signature_all') }}?etatj=" + encodeURIComponent(JSON.stringify(etatJ));
+
+        // Send a GET request to the download URL
+        window.location.href = downloadUrl;
+    });
+</script>
+
+{% endblock %}

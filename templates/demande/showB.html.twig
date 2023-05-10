@@ -1,0 +1,46 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Demande{% endblock %}
+
+{% block contenu %}
+    <h1>Demande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demande.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomc</th>
+                <td>{{ demande.nomc }}</td>
+            </tr>
+            <tr>
+                <th>Moyen</th>
+                <td>{{ demande.moyen }}</td>
+            </tr>
+            <tr>
+                <th>Hd</th>
+                <td>{{ demande.dated }}</td>
+            </tr>
+            <tr>
+                <th>Ha</th>
+                <td>{{ demande.datea }}</td>
+            </tr>
+             <tr>
+                <th>Permis</th>
+                <td>{{ demande.permis }}</td>
+            </tr>
+            <tr>
+                <th>Email Chauffeur</th>
+                <td>{{ demande.EmailC }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demande') }}"  class="btn btn-secondary">back to list</a>
+
+    
+
+  
+{% endblock %}
